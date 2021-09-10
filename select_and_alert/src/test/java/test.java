@@ -1,9 +1,10 @@
+import Utilities.Utility;
 import common_lib.browser;
 import element.selectors;
 import input.data;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
+//import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterClass;
@@ -17,7 +18,7 @@ public class test {
     data d = new data();
     selectors se = new selectors();
     browser brw = new browser();
-    JavascriptExecutor js = (JavascriptExecutor) brw.driver;
+//    JavascriptExecutor js = (JavascriptExecutor) brw.driver;
 
     @BeforeClass
     public void openBrowser() {
@@ -83,25 +84,25 @@ public class test {
             WebElement prompt = brw.driver.findElement(By.xpath(se.promp));
             prompt.click();
             Alert prom = brw.driver.switchTo().alert();
-            brw.driver.switchTo().alert().sendKeys(d.al_mess);
-            brw.driver.switchTo().alert().accept();
+            prom.sendKeys(d.al_mess);
+            prom.accept();
             System.out.println("Prompt check success");
             //Alert Handling
             System.out.println("\n=================\nAlert Test \n=================");
             WebElement ale = brw.driver.findElement(By.xpath(se.aler));
             ale.click();
             Alert alert = brw.driver.switchTo().alert();
-            String alrt_txt = brw.driver.switchTo().alert().getText();
+            String alrt_txt = alert.getText();
             System.out.println("Alert message is :" + alrt_txt);
-            brw.driver.switchTo().alert().accept();
+            alert.accept();
             //Confirmation box handling
             System.out.println("\n============================\nConfirm Box Test \n==========================");
             WebElement cnf = brw.driver.findElement(By.xpath(se.conf));
             cnf.click();
             Alert confrm = brw.driver.switchTo().alert();
-            String conf_txt = brw.driver.switchTo().alert().getText();
+            String conf_txt = confrm.getText();
             System.out.println("Confirm message is :" + conf_txt);
-            brw.driver.switchTo().alert().accept();
+            confrm.accept();
         } catch (Exception e) {
             System.out.println("Exception found :" + e);
         }
@@ -122,11 +123,11 @@ public class test {
             System.out.println("Exception found :" +e);
         }
     }
-    @Test(priority = 4, description = "Window Handling", enabled = true)
+    @Test(priority = 4, description = "Window Handling")
     public void window(){
         try {
             //Scroll
-            String home_window = brw.driver.getWindowHandle();
+//            String home_window = brw.driver.getWindowHandle();
             WebElement nw_pg_link = brw.driver.findElement(By.linkText(se.new_page));
             nw_pg_link.click();
             Set<String> all_windows = brw.driver.getWindowHandles();
@@ -135,8 +136,10 @@ public class test {
                 brw.driver.switchTo().window(window);
                 if (brw.driver.getTitle().contains("page 3"))
                 {
+                    Utility.screenShot(brw.driver,"page_3");
+                    WebElement content = brw.driver.findElement(By.xpath(se.page3_contnt));
+                    System.out.println(content.getText());
                     System.out.println("Control in new window");
-
                 }
             }
             for (String window : all_windows)
@@ -145,7 +148,6 @@ public class test {
                 if (brw.driver.getTitle().contains("Document"))
                 {
                     System.out.println("Back to home window");
-
                 }
             }
 
