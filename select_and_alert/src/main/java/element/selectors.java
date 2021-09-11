@@ -13,6 +13,9 @@ public class selectors {
     public String iframe_play = "//*[@id=\"movie_player\"]/div[4]/button";
     public String new_page = "page3";
     public String page3_contnt = "/html/body/p";
+    public String fname = "//*[@id=\"first_4\"]";
+    public String mname = "//*[@id=\"middle_4\"]";
+    public String lname = "//*[@id=\"last_4\"]";
 
 
 

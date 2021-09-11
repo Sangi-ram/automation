@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -71,7 +72,7 @@ public class test {
                 System.out.println(n + "." + desel_options);
             }
         }catch (Exception e){
-            System.out.println("Exception found :" +e);
+            System.out.println("Exception found at Select:" +e);
         }
     }
 
@@ -120,10 +121,10 @@ public class test {
             System.out.println("Inside Mainframe");
 
         }catch (Exception e){
-            System.out.println("Exception found :" +e);
+            System.out.println("Exception found at Popup:" +e);
         }
     }
-    @Test(priority = 4, description = "Window Handling")
+    @Test(priority = 4, description = "Window Handling", enabled = false)
     public void window(){
         try {
             //Scroll
@@ -147,7 +148,7 @@ public class test {
                 brw.driver.switchTo().window(window);
                 if (brw.driver.getTitle().contains("Document"))
                 {
-                    System.out.println("Back to home window");
+                    System.out.println("Control back to home window");
                 }
             }
 
@@ -155,10 +156,44 @@ public class test {
 
 
         }catch (Exception e){
-        System.out.println("Exception found :" +e);
+        System.out.println("Exception found at Windows:" +e);
     }
 }
 
+@Test(priority = 5, dataProvider = "names", description = "DataProvider")
+public void data(String fname, String mname, String lname){
+
+        try{
+
+            brw.driver.navigate().to("https://www.jotform.com/build/212533869664466#preview");
+
+            brw.driver.findElement(By.xpath(se.fname)).sendKeys(fname);
+            brw.driver.findElement(By.xpath(se.mname)).sendKeys(mname);
+            brw.driver.findElement(By.xpath(se.lname)).sendKeys(lname);
+
+        }catch (Exception e){
+            System.out.println("Exception found at Data Provider :" +e);
+        }
+
+
+}
+
+@DataProvider(name = "names")
+public Object[][] data(){
+
+        Object[][] names = new Object[2][3];
+
+        names[0][0] = "qwe";
+        names[0][1] = "rty";
+        names[0][2] = "uio";
+
+        names[1][0] = "asd";
+        names[1][1] = "fgh";
+        names[1][2] = "jkl";
+
+        return names;
+
+}
 
     @AfterClass
     public void closeBrowser(){
