@@ -1,3 +1,4 @@
+import Utilities.ExcelUtils;
 import Utilities.Utility;
 import common_lib.browser;
 import element.selectors;
@@ -151,17 +152,13 @@ public class test {
                     System.out.println("Control back to home window");
                 }
             }
-
-
-
-
         }catch (Exception e){
-        System.out.println("Exception found at Windows:" +e);
+            System.out.println("Exception found at Windows:" +e);
+        }
     }
-}
 
-@Test(priority = 5, dataProvider = "names", description = "DataProvider")
-public void data(String fname, String mname, String lname){
+    @Test(priority = 5, dataProvider = "Login_credentials", description = "DataProvider")
+    public void data(String fname, String mname, String lname){
 
         try{
 
@@ -170,16 +167,17 @@ public void data(String fname, String mname, String lname){
             brw.driver.findElement(By.xpath(se.fname)).sendKeys(fname);
             brw.driver.findElement(By.xpath(se.mname)).sendKeys(mname);
             brw.driver.findElement(By.xpath(se.lname)).sendKeys(lname);
+            Utility.screenShot(brw.driver,"page_3"+lname);
 
         }catch (Exception e){
             System.out.println("Exception found at Data Provider :" +e);
         }
 
 
-}
+    }
 
-@DataProvider(name = "names")
-public Object[][] data(){
+    @DataProvider(name = "names")
+    public Object[][] data(){
 
         Object[][] names = new Object[2][3];
 
@@ -193,7 +191,20 @@ public Object[][] data(){
 
         return names;
 
-}
+    }
+    @DataProvider(name = "Login_credentials")
+    public Object[][] methodName(){
+        ExcelUtils excelUtils= new ExcelUtils("C:\\Users\\user\\IdeaProjects\\select_and_alert\\src\\main\\java\\testData\\TestData.xlsx"); // create an object of ExcelUtils class. ie, we created.
+        int rows=excelUtils.getRowCount(0); // pass sheet index to get num of rows
+        Object[][] data=new Object[rows][3]; // create an object array to values we read from excel sheet.
+        for (int i=0;i<rows;i++)
+        {
+            data[i][0]=excelUtils.getData(0,i,0); // getData
+            data[i][1]=excelUtils.getData(0,i, 1);
+            data[i][2]=excelUtils.getData(0,i, 2);
+        }
+        return data;
+    }
 
     @AfterClass
     public void closeBrowser(){
